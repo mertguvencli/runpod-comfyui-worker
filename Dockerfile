@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Clone comfyui-worker repository
-RUN git clone https://github.com/mertguvencli/comfyui-worker
+RUN git clone https://github.com/mertguvencli/comfyui-worker /
 
 # Install worker dependencies
 RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
@@ -36,10 +36,8 @@ RUN /install_manager.sh
 RUN pip3 install runpod requests
 
 # Support for the network volume
-ADD src/extra_model_paths.yaml ./worker/ComfyUI/
+ADD extra_model_paths.yaml ./ComfyUI/
 
-# Add the start and the handler
-ADD src/start.sh src/rp_handler.py ./
 RUN chmod +x /start.sh
 
 # Start the container
