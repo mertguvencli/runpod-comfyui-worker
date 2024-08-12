@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Clone comfyui-worker repository
-RUN git clone https://github.com/mertguvencli/comfyui-worker /
+RUN git clone https://github.com/mertguvencli/comfyui-worker ./
 
 # Install worker dependencies
 RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
