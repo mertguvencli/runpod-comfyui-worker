@@ -19,17 +19,14 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Clone comfyui-worker repository
-RUN git clone https://github.com/mertguvencli/comfyui-worker /worker
-
-# Change working directory to worker
-WORKDIR /worker
+RUN git clone https://github.com/mertguvencli/comfyui-worker
 
 # Install worker dependencies
 RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
     && pip3 install --upgrade -r requirements.txt
 
 # Install Custom Nodes
-RUN python3.10 install_custom_nodes.py
+RUN python3 install_custom_nodes.py
 
 # Install ComfyUI Manager & Custom Node's Dependencies
 RUN chmod +x /install_manager.sh
@@ -37,9 +34,6 @@ RUN /install_manager.sh
 
 # Install runpod
 RUN pip3 install runpod requests
-
-# Go back to the root
-WORKDIR /
 
 # Support for the network volume
 ADD src/extra_model_paths.yaml ./worker/ComfyUI/
