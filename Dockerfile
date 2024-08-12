@@ -8,7 +8,10 @@ ENV PIP_PREFER_BINARY=1
 # Ensures output from python is printed immediately to the terminal without buffering
 ENV PYTHONUNBUFFERED=1
 
-# Install Python, git and other necessary tools
+RUN mkdir /app
+WORKDIR /app
+
+# # Install Python, git and other necessary tools
 RUN apt-get update && apt-get install -y \
     python3.10 \
     python3-pip \
@@ -31,10 +34,10 @@ RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-u
 RUN python3 install_custom_nodes.py
 
 # Install ComfyUI Manager & Custom Node's Dependencies
-RUN chmod +x /install_manager.sh
-RUN /install_manager.sh
+RUN chmod +x install_manager.sh
+RUN bash install_manager.sh
 
-WORKDIR /
+WORKDIR /app
 
 # Install runpod
 RUN pip3 install runpod requests
@@ -42,7 +45,8 @@ RUN pip3 install runpod requests
 # Support for the network volume
 ADD extra_model_paths.yaml ./worker/ComfyUI/
 
-RUN chmod +x /start.sh
-
 # Start the container
-CMD /start.sh
+COPY . .
+
+RUN chmod +x start.sh
+CMD bash start.sh
