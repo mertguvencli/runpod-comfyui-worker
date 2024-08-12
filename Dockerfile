@@ -32,8 +32,8 @@ RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-u
 RUN python3 install_custom_nodes.py
 
 # Install ComfyUI Manager & Custom Node's Dependencies
-RUN chmod +x install_manager.sh
-RUN install_manager.sh
+RUN chmod +x worker/install_manager.sh
+RUN worker/install_manager.sh
 
 # Install runpod
 RUN pip3 install runpod requests
