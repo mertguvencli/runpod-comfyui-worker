@@ -32,6 +32,7 @@ RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-u
 RUN python3.10 install_custom_nodes.py
 
 # Install ComfyUI Manager & Custom Node's Dependencies
+RUN chmod +x /install_manager.sh
 RUN /install_manager.sh
 
 # Install runpod
@@ -44,7 +45,7 @@ WORKDIR /
 ADD src/extra_model_paths.yaml ./worker/ComfyUI/
 
 # Add the start and the handler
-ADD src/start.sh src/rp_handler.py test_input.json ./
+ADD src/start.sh src/rp_handler.py ./
 RUN chmod +x /start.sh
 
 # Start the container
